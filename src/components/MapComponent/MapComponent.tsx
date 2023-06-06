@@ -1,26 +1,44 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect } from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Pane, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useMap, Circle } from "react-leaflet";
 import { type OSMdata } from "./utils";
 import { type RouterOutputs } from "~/utils/api";
 import styles from "./MapComponent.module.scss";
-import { Button } from "../button/button";
-import parcoin from "../../../public/icon/parkcoin.svg";
 import { useUser } from "@clerk/nextjs";
+import { LoaderIcon } from "react-hot-toast";
 
-const pinIcon = L.icon({
+const pinIconBlue = L.icon({
   iconSize: [36, 36],
   iconUrl: "./icon/map-pin-blue.svg",
+});
+
+const pinIconRed = L.icon({
+  iconSize: [36, 36],
+  iconUrl: "./icon/map-pin-red.svg",
+});
+
+const pinIconGray = L.icon({
+  iconSize: [36, 36],
+  iconUrl: "./icon/map-pin-gray.svg",
+});
+
+const pinIconYellow = L.icon({
+  iconSize: [36, 36],
+  iconUrl: "./icon/map-pin-yellow.svg",
 });
 
 type MapProps = {
   location?: OSMdata;
   nearbyParkingSpots: RouterOutputs["parking"]["getParkingWithinRange"];
   spotSelection: (spotId: string) => void;
+  userData: any;
+  isUserLoading: boolean;
+  activeSpot: string;
 };
 
 type ResetViewProps = {
@@ -31,6 +49,9 @@ const MapComponent = ({
   location,
   nearbyParkingSpots,
   spotSelection,
+  userData,
+  isUserLoading,
+  activeSpot,
 }: MapProps) => {
   function ResetView({ selectPosition }: ResetViewProps) {
     const map = useMap();
@@ -61,12 +82,31 @@ const MapComponent = ({
     fillOpacity: 0.2,
   };
 
+  const checkForSize = (parkingSize: string, userCarSize: string) => {
+    const sizeArray = ["XSMALL", "SMALL", "MEDIUM", "LARGE", "XLARGE"];
+    const parkingIndex = sizeArray.indexOf(parkingSize);
+    const userIndex = sizeArray.indexOf(userCarSize);
+
+    if (parkingIndex >= userIndex) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <MapContainer
       center={[55.6867243, 12.5700724]}
       zoom={13}
       style={{ width: "100%", height: "100%" }}
     >
+      {isUserLoading && (
+        <section className={styles.loaderWrapper}>
+          <div>
+            Loading user data <LoaderIcon />
+          </div>
+        </section>
+      )}
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=pSdO0p7aotEmiB0g4S3q"
@@ -93,32 +133,72 @@ const MapComponent = ({
             radius={1000}
           />
 
-          {nearbyParkingSpots.length &&
-            nearbyParkingSpots.map((spot) => {
-              if (spot)
-                return (
-                  <Marker
-                    position={[spot?.latitude, spot?.longitude]}
-                    icon={pinIcon}
-                    key={spot.id}
-                    eventHandlers={{
-                      click: () => {
-                        spotSelection(spot.id);
-                      },
-                      popupclose: () => {
-                        spotSelection("");
-                      },
-                    }}
-                  >
-                    <Popup>
-                      <div className={styles.spotWrapper}>
-                        <h4>{spot.address}</h4>
-                        <p>{spot.description}</p>
-                      </div>
-                    </Popup>
-                  </Marker>
-                );
-            })}
+          {nearbyParkingSpots.length && !isUserLoading && userData
+            ? nearbyParkingSpots.map((spot) => {
+                const icon = checkForSize(spot.dimensions, userData.vehicleSize)
+                  ? pinIconBlue
+                  : pinIconRed;
+                if (spot)
+                  return (
+                    <Marker
+                      position={[spot?.latitude, spot?.longitude]}
+                      icon={activeSpot === spot.id ? pinIconYellow : icon}
+                      key={spot.id}
+                      eventHandlers={{
+                        click: () => {
+                          spotSelection(spot.id);
+                        },
+                        popupclose: () => {
+                          spotSelection("");
+                        },
+                      }}
+                    >
+                      <>
+                        <Popup>
+                          <div className={styles.spotWrapper}>
+                            <h4>{spot.address}</h4>
+                            {!checkForSize(
+                              spot.dimensions,
+                              userData.vehicleSize
+                            ) && (
+                              <p className={styles.dimensionError}>
+                                Not available for your vehicle size.
+                              </p>
+                            )}
+                            <p>{spot.description}</p>
+                          </div>
+                        </Popup>
+                      </>
+                    </Marker>
+                  );
+              })
+            : nearbyParkingSpots.map((spot) => {
+                if (spot)
+                  return (
+                    <Marker
+                      position={[spot?.latitude, spot?.longitude]}
+                      icon={pinIconGray}
+                      key={spot.id}
+                      eventHandlers={{
+                        click: () => {
+                          spotSelection(spot.id);
+                        },
+                        popupclose: () => {
+                          spotSelection("");
+                        },
+                      }}
+                    >
+                      <>
+                        <Popup>
+                          <div className={styles.spotWrapper}>
+                            <h4>{spot.address}</h4>
+                            <p>{spot.description}</p>
+                          </div>
+                        </Popup>
+                      </>
+                    </Marker>
+                  );
+              })}
         </>
       ) : (
         ""

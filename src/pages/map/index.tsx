@@ -277,6 +277,9 @@ const Map: NextPage = () => {
                     onClick={(spotId) => {
                       spotSelectionHandler(spotId);
                     }}
+                    spotSelection={(id: string) => {
+                      setActiveSpot(id);
+                    }}
                   />
                 ))}
               </div>
@@ -356,6 +359,9 @@ const Map: NextPage = () => {
             spotSelection={(id: string) => {
               setActiveSpot(id);
             }}
+            activeSpot={activeSpot}
+            userData={userData}
+            isUserLoading={isUserLoading}
           />
         </div>
       </PageHeader>
