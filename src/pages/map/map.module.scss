@@ -133,7 +133,7 @@
 
 .spotList {
   width: 100%;
-  padding: $spacer-200 $spacer-400;
+  padding: $spacer-200 $spacer-200 $spacer-200 $spacer-400;
 
   &Wrapper {
     width: 100%;
@@ -165,7 +165,6 @@
       margin-right: -$spacer-200;
       padding: $spacer-400 0;
       padding-right: $spacer-200;
-      overflow-y: scroll;
       margin-right: 0px;
       margin-bottom: 0px;
     }
