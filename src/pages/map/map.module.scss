@@ -195,6 +195,34 @@
   }
 }
 
+.bookingCompleteText {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer-100;
+  margin-top: $spacer-200;
+  > p:last-of-type {
+    font-weight: $font-weight-semibold;
+    color: $neutral-600;
+    background-color: $neutral-200;
+    border: solid $border-width-100 $neutral-400;
+    border-radius: $border-roundness-100;
+    padding: $spacer-200;
+  }
+}
+
+.bookingCompleteButtons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: $spacer-300;
+  margin-top: $spacer-400;
+}
+
+.bookingCompleteHeader {
+  display: flex;
+  justify-content: center;
+}
+
 @media only screen and (min-width: 768px) {
   .mapWrapper {
     height: calc(100vh - 96px);
