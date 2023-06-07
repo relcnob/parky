@@ -15,11 +15,17 @@ import { LoaderIcon } from "react-hot-toast";
 const pinIconBlue = L.icon({
   iconSize: [36, 36],
   iconUrl: "./icon/map-pin-blue.svg",
+  shadowSize: [32, 32],
+  shadowAnchor: [15, 10],
+  shadowUrl: "./icon/icon_shadow.png",
 });
 
 const pinIconRed = L.icon({
   iconSize: [36, 36],
   iconUrl: "./icon/map-pin-red.svg",
+  shadowSize: [32, 32],
+  shadowAnchor: [15, 10],
+  shadowUrl: "./icon/icon_shadow.png",
 });
 
 const pinIconGray = L.icon({
@@ -30,6 +36,9 @@ const pinIconGray = L.icon({
 const pinIconYellow = L.icon({
   iconSize: [36, 36],
   iconUrl: "./icon/map-pin-yellow.svg",
+  shadowSize: [32, 32],
+  shadowAnchor: [15, 10],
+  shadowUrl: "./icon/icon_shadow.png",
 });
 
 type MapProps = {
@@ -189,7 +198,7 @@ const MapComponent = ({
                       }}
                     >
                       <>
-                        <Popup>
+                        <Popup offset={[0, -6]}>
                           <div className={styles.spotWrapper}>
                             <h4>{spot.address}</h4>
                             <p>{spot.description}</p>
