@@ -133,7 +133,7 @@
 
 .spotList {
   width: 100%;
-  padding: $spacer-200 $spacer-400;
+  padding: $spacer-200 $spacer-200 $spacer-200 $spacer-400;
 
   &Wrapper {
     width: 100%;
@@ -165,7 +165,6 @@
       margin-right: -$spacer-200;
       padding: $spacer-400 0;
       padding-right: $spacer-200;
-      overflow-y: scroll;
       margin-right: 0px;
       margin-bottom: 0px;
     }
@@ -194,6 +193,34 @@
       }
     }
   }
+}
+
+.bookingCompleteText {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer-100;
+  margin-top: $spacer-200;
+  > p:last-of-type {
+    font-weight: $font-weight-semibold;
+    color: $neutral-600;
+    background-color: $neutral-200;
+    border: solid $border-width-100 $neutral-400;
+    border-radius: $border-roundness-100;
+    padding: $spacer-200;
+  }
+}
+
+.bookingCompleteButtons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: $spacer-300;
+  margin-top: $spacer-400;
+}
+
+.bookingCompleteHeader {
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (min-width: 768px) {

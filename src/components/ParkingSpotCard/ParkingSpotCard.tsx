@@ -15,6 +15,7 @@ type ParkingSpotCardProps = {
   onClick: (spotId: string, spotPrice: number) => void;
   isUserDataLoaded: boolean;
   active: boolean;
+  spotSelection: (spotId: string) => void;
 };
 
 export const ParkingSpotCard = ({
@@ -22,12 +23,14 @@ export const ParkingSpotCard = ({
   onClick,
   isUserDataLoaded,
   active,
+  spotSelection,
 }: ParkingSpotCardProps) => {
   const user = useUser();
 
   return (
     <div
       className={active ? `${styles.card} ${styles.activeCard}` : styles.card}
+      onClick={() => spotSelection(spot.id)}
     >
       <div className={styles.cardImage}>
         {spot.imageURL ? (

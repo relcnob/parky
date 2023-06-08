@@ -72,6 +72,40 @@
     justify-self: flex-end;
   }
 
+  &CTA {
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-body-large;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: $font-size-header-4;
+    font-family: $font-display;
+    font-weight: $font-weight-regular;
+    margin: 0;
+    padding: 0;
+    transition: 0.3s ease;
+    vertical-align: top;
+    position: relative;
+    &:after {
+      content: "";
+      height: 4px;
+      width: 80%;
+      position: absolute;
+      background: $blue-200;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      border-radius: $spacer-300;
+      transition: 0.3s ease;
+    }
+    &:hover {
+      color: $blue-200;
+      &:after {
+        transform: translateX(-50%) scaleX(1);
+      }
+    }
+  }
+
   nav {
     position: fixed;
     left: 0;

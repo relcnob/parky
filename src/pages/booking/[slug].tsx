@@ -126,6 +126,8 @@ const Booking: NextPage = () => {
           {isLoading && <div>Loader</div>}
           {!isLoading &&
           bookingData &&
+          user.user &&
+          user.user.id &&
           (user?.user?.id === bookingData?.profileId ||
             user?.user?.id === spotData?.id) ? (
             <section className={styles.booking}>

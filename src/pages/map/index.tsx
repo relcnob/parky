@@ -20,7 +20,7 @@ import { PurchaseModal } from "~/components/BookingForm/components/PurchaseModal
 import { Button } from "~/components/button/button";
 import { Toggle } from "~/components/Toggle/Toggle";
 import Head from "next/head";
-
+import Router from "next/router";
 export type QueryParameters = {
   q: string;
   format: string;
@@ -46,6 +46,7 @@ const Map: NextPage = () => {
   const [nearbyParkingSpots, setNearbyParkingSpots] = useState<
     RouterOutputs["parking"]["getParkingWithinRange"]
   >([]);
+  const [isBookingComplete, setIsBookingComplete] = useState<string>();
   const [purchaseFormContents, setPurchaseFormContents] =
     useState<JSX.Element>();
   const [isPurchaseFormVisible, setIsPurchaseFormVisible] = useState(false);
@@ -128,6 +129,10 @@ const Map: NextPage = () => {
           onCancel={() => setIsPurchaseFormVisible(false)}
           bookingType={bookingType}
           bookingDate={getValues("bookingDate")}
+          userData={userData}
+          setIsBookingComplete={(id: string) => {
+            setIsBookingComplete(id);
+          }}
         />
       );
     } else if (
@@ -141,10 +146,14 @@ const Map: NextPage = () => {
           isUserSignedIn={user.isSignedIn}
           onCancel={() => setIsPurchaseFormVisible(false)}
           userId={user.user.id}
+          userData={userData}
           spot={findSpot(spotId)}
           userBalance={userData?.balance}
           bookingType={bookingType}
           bookingDate={getValues("bookingDate")}
+          setIsBookingComplete={(id: string) => {
+            setIsBookingComplete(id);
+          }}
         />
       );
       // show parking booking form
@@ -153,7 +162,7 @@ const Map: NextPage = () => {
         <>
           <div>Something went wrong, try again.</div>
           <Button
-            type="primary"
+            type="secondary"
             text="Close"
             onClick={() => setIsPurchaseFormVisible(false)}
           />
@@ -161,6 +170,30 @@ const Map: NextPage = () => {
       );
     }
   };
+
+  useEffect(() => {
+    isBookingComplete &&
+      setPurchaseFormContents(
+        <>
+          <h3 className={styles.bookingCompleteHeader}>Booking completed</h3>
+          <section className={styles.bookingCompleteText}>
+            <p>Your booking number: </p> <p>{`#${isBookingComplete}`}</p>
+          </section>
+          <section className={styles.bookingCompleteButtons}>
+            <Button
+              type="secondary"
+              text="Close"
+              onClick={() => setIsPurchaseFormVisible(false)}
+            />
+            <Button
+              type="primary"
+              text="Proceed to booking"
+              onClick={() => void Router.push(`/booking/${isBookingComplete}`)}
+            />
+          </section>
+        </>
+      );
+  }, [isBookingComplete]);
 
   const mapHandler = () => {
     return (
@@ -277,6 +310,9 @@ const Map: NextPage = () => {
                     onClick={(spotId) => {
                       spotSelectionHandler(spotId);
                     }}
+                    spotSelection={(id: string) => {
+                      setActiveSpot(id);
+                    }}
                   />
                 ))}
               </div>
@@ -356,6 +392,9 @@ const Map: NextPage = () => {
             spotSelection={(id: string) => {
               setActiveSpot(id);
             }}
+            activeSpot={activeSpot}
+            userData={userData}
+            isUserLoading={isUserLoading}
           />
         </div>
       </PageHeader>
