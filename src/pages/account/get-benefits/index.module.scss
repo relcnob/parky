@@ -11,6 +11,55 @@
     margin-bottom: $spacer-400;
   }
 }
+.balanceRefund {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer-300;
+
+  button {
+    width: 100%;
+  }
+}
+
+.currentBalance {
+  justify-self: center;
+  width: 100%;
+  background-color: $neutral-200;
+  border-radius: $border-roundness-100;
+  padding: $spacer-300;
+  font-size: $font-size-header-4;
+  display: flex;
+  flex-direction: row;
+  gap: $spacer-100;
+  align-items: center;
+  justify-content: center;
+  em {
+    font-weight: $font-weight-semibold;
+    position: relative;
+  }
+}
+
+.info {
+  color: $neutral-500;
+  font-size: $font-size-label;
+  margin-bottom: $spacer-400;
+}
+.headerWrappper {
+  display: grid;
+  grid-template-columns: 0.5fr 3fr 1fr 1fr;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacer-200;
+  padding: 0 $spacer-300;
+  justify-content: space-between;
+
+  p:last-of-type {
+    text-align: right;
+    padding-right: $spacer-300;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
 
 .benefitsWrapper {
   max-height: 80vh;
@@ -41,10 +90,21 @@
   justify-content: center;
   align-items: center;
 
+  em {
+    font-weight: $font-weight-semibold;
+  }
+
+  p {
+    max-width: 64ch;
+    font-size: $font-size-body;
+    text-align: center;
+  }
+
   > section {
     background: $neutral-100;
     box-shadow: $box-shadow;
     min-width: 300px;
+    max-width: 450px;
     padding: $spacer-400;
     border-radius: $border-roundness-200;
     h4 {
