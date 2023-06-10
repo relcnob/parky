@@ -11,6 +11,7 @@
     margin-bottom: $spacer-400;
   }
 }
+
 .balanceRefund {
   display: flex;
   flex-direction: column;
@@ -19,6 +20,24 @@
   button {
     width: 100%;
   }
+  section p {
+    text-align: left;
+  }
+}
+
+.refundMessage {
+  text-align: left !important;
+}
+
+.amountInDkk {
+  padding: $spacer-300;
+  background-color: $neutral-200;
+  width: 100%;
+  display: flex;
+  border: solid $border-width-100 $neutral-400;
+  border-radius: $border-roundness-100;
+  justify-content: center;
+  font-weight: $font-weight-semibold;
 }
 
 .currentBalance {
@@ -89,7 +108,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
+  padding: $spacer-200;
   em {
     font-weight: $font-weight-semibold;
   }

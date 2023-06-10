@@ -11,7 +11,7 @@ import Head from "next/head";
 import { UiBox } from "~/components/uiBox/uiBox";
 import { useEffect, useState } from "react";
 import { Button } from "~/components/button/button";
-import benefitList from "~/components/benefitItem/utils/benefitList.json";
+import benefitList from "../../../components/BenefitItem/utils/benefitList.json";
 import { BenefitItem } from "~/components/BenefitItem/BenefitItem";
 import { api } from "~/utils/api";
 import { toast } from "react-hot-toast";
@@ -19,6 +19,7 @@ import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { InputField } from "~/components/FormElements/InputField/InputField";
 import { useForm } from "react-hook-form";
+
 type Benefit = {
   name: string;
   price: number;
@@ -122,9 +123,9 @@ const GetBenefits: NextPage = () => {
         >
           <section>
             <h4>Refund Parcoin</h4>
-            <p>
+            <p className={styles.refundMessage}>
               Specify an amount of Parcoin to be refunded to your linked bank
-              account. The exchange rate is 9 DKK per parcoin.
+              account. The exchange rate is 9 DKK per Parcoin.
             </p>
             <InputField
               inputType="number"
@@ -144,6 +145,9 @@ const GetBenefits: NextPage = () => {
                   : ""
               }
             />
+            <span className={styles.amountInDkk}>
+              {`You will receive: ${getValues("amount") * 9} DKK`}
+            </span>
             <div className={styles.buttonWrapper}>
               <Button
                 onClick={() => setShowRefundModal(false)}
