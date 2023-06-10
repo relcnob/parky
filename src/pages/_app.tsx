@@ -1,10 +1,10 @@
 import { type AppType } from "next/app"
 import { ClerkProvider } from "@clerk/nextjs"
 import { api } from "~/utils/api"
-import "~/styles/globals.scss"
 import { Toaster } from "react-hot-toast"
-import styles from "./index.module.scss"
 import "@uploadthing/react/styles.css"
+import "~/styles/globals.scss"
+import styles from "./index.module.scss"
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (

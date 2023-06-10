@@ -212,3 +212,20 @@
 .imageUploadWrapper {
   margin-bottom: $spacer-400;
 }
+.uploadedImageWrapper {
+  display: flex;
+  align-items: center;
+  gap: $spacer-300;
+  margin-bottom: $spacer-400;
+  margin-top: $spacer-200;
+  padding: $spacer-300;
+  background-color: rgba(78, 255, 75, 0.3);
+  border-radius: $border-roundness-100;
+  border: 2px dashed $green-300;
+
+  img {
+    border-radius: $border-roundness-100;
+  }
+  @include for-size(tablet-up) {
+  }
+}

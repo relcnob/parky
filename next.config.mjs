@@ -10,6 +10,9 @@ const config = {
     esmExternals: false,
   },
   reactStrictMode: true,
+  images: {
+    domains: ["uploadthing.com"],
+  },
 
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
