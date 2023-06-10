@@ -223,6 +223,24 @@
   border-radius: $border-roundness-100;
   border: 2px dashed $green-300;
 
+  &.update {
+    background-color: transparent;
+    border-radius: 0;
+    border: none;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacer-200;
+    }
+
+    &.success {
+      background-color: rgba(78, 255, 75, 0.3);
+      border-radius: $border-roundness-100;
+      border: 2px dashed $green-300;
+    }
+  }
   img {
     border-radius: $border-roundness-100;
   }
