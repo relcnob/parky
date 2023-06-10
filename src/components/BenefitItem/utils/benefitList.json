@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Rema1000 10% discount coupon",
+    "price": 250,
+    "image": "/benefits/rema.svg"
+  },
+  {
+    "name": "Fitness World 25% discount",
+    "price": 400,
+    "image": "/benefits/fitnessworld.webp"
+  },
+  {
+    "name": "Fitness World 50% discount",
+    "price": 800,
+    "image": "/benefits/fitnessworld.webp"
+  },
+  {
+    "name": "Netto 200 DKK Coupon",
+    "price": 250,
+    "image": "/benefits/netto.png"
+  },
+  {
+    "name": "Joe and the Juice Sandwich voucher",
+    "price": 120,
+    "image": "/benefits/joeandthejuice.svg"
+  }
+]

@@ -16,45 +16,43 @@ import { FeatureWrapper } from "./components/FeatureWrapper";
 type SpotFeaturesProps = {
   features: string[];
 };
-
-export const SpotFeatures = ({ features }: SpotFeaturesProps): JSX.Element => {
-  function iconHandler(feature: string) {
-    let result;
-    switch (feature) {
-      default:
-        result = featureIcon;
-        break;
-      case "charging":
-        result = chargingIcon;
-        break;
-      case "garage":
-        result = garageIcon;
-        break;
-      case "roof":
-        result = roofIcon;
-        break;
-      case "camera":
-        result = cctvIcon;
-        break;
-      case "cctv":
-        result = cctvIcon;
-        break;
-      case "gate":
-        result = gateIcon;
-        break;
-      case "24/7":
-        result = fulldayIcon;
-        break;
-      case "instant":
-        result = instantIcon;
-        break;
-      case "lights":
-        result = lightsIcon;
-        break;
-    }
-    return result;
+export function iconHandler(feature: string) {
+  let result;
+  switch (feature) {
+    default:
+      result = featureIcon;
+      break;
+    case "charging":
+      result = chargingIcon;
+      break;
+    case "garage":
+      result = garageIcon;
+      break;
+    case "roof":
+      result = roofIcon;
+      break;
+    case "camera":
+      result = cctvIcon;
+      break;
+    case "cctv":
+      result = cctvIcon;
+      break;
+    case "gate":
+      result = gateIcon;
+      break;
+    case "24/7":
+      result = fulldayIcon;
+      break;
+    case "instant":
+      result = instantIcon;
+      break;
+    case "lights":
+      result = lightsIcon;
+      break;
   }
-
+  return result;
+}
+export const SpotFeatures = ({ features }: SpotFeaturesProps): JSX.Element => {
   function descriptionHandler(feature: string) {
     let result;
     switch (feature) {

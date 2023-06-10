@@ -55,14 +55,20 @@
 
 .smallBox {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: $spacer-500;
   span {
+    padding: $spacer-300 0;
+    margin: auto;
     display: flex;
     flex-direction: row;
     gap: $spacer-300;
     flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
-    margin: $spacer-400 0;
+    align-self: center;
+    justify-self: center;
     img {
       max-height: 24px;
       max-width: 24px;
@@ -139,13 +145,14 @@
   .smallBox {
     padding-bottom: $spacer-600;
     span {
-      margin: $spacer-400 0;
       display: flex;
       flex-direction: row;
       gap: $spacer-300;
       flex-wrap: nowrap;
       align-items: center;
       justify-content: center;
+      align-self: center;
+      justify-self: center;
       img {
         max-height: 42px;
         max-width: 42px;

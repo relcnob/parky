@@ -1,3 +1,5 @@
+
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next"
 import Head from "next/head"
 import styles from "../create/index.module.scss"
@@ -312,15 +314,20 @@ const UpdateParkingPage: NextPage<{
                 <h4>Parking spot features</h4>
                 <div className={styles.featureList}>
                   {featureList.map((feature) => (
-                    <InputField
-                      key={feature.value}
-                      name="features"
-                      placeholder=""
-                      label={feature.title}
-                      value={feature.value}
-                      register={register}
-                      inputType="checkbox"
-                    />
+                    <span key={feature.value}>
+                      <Image
+                        src={iconHandler(feature.value)}
+                        alt={feature.value}
+                      />
+                      <InputField
+                        name="features"
+                        placeholder=""
+                        label={feature.title}
+                        value={feature.value}
+                        register={register}
+                        inputType="checkbox"
+                      />
+                    </span>
                   ))}
                 </div>
                 <h4>Parking details</h4>

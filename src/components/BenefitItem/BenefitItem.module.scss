@@ -1,0 +1,79 @@
+@import "../../styles/tokens.scss";
+.benefitWrapper {
+  display: grid;
+  grid-template-columns: 0.5fr 3fr 1fr 1fr;
+  justify-content: space-between;
+  background-color: $neutral-200;
+  border-radius: $border-roundness-100;
+  padding: $spacer-200 $spacer-300;
+  align-items: center;
+  gap: $spacer-200;
+  position: relative;
+  max-width: 100%;
+  &Name {
+    font-weight: $font-weight-semibold;
+  }
+  .price {
+    display: flex;
+    flex-direction: row;
+    gap: $spacer-100;
+    justify-items: center;
+    align-items: center;
+  }
+  img {
+    max-width: 24px;
+    max-height: 24px;
+  }
+  button {
+    font-size: $font-size-body-small;
+    width: 100%;
+    justify-self: flex-end;
+    padding: $spacer-200 $spacer-300;
+  }
+  &:after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    border: solid $border-width-200 $blue-200;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    border-radius: $border-roundness-100;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: 0.3s ease;
+  }
+  &:hover:after {
+    opacity: 1;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .benefitItem {
+    p {
+      font-size: $font-size-body;
+    }
+  }
+  .benefitWrapper {
+    img {
+      max-width: 48px;
+      max-height: 48px;
+    }
+    button {
+      font-size: $font-size-body;
+      width: fit-content;
+      justify-self: flex-end;
+      padding: $spacer-300 $spacer-400;
+    }
+  }
+  .price {
+    font-size: $font-size-body-large;
+    gap: $spacer-200;
+  }
+}
+
+@media screen and (min-width: 1366px) {
+  .benefitItem {
+    grid-template-columns: 2fr 4fr 1fr 1fr;
+  }
+}

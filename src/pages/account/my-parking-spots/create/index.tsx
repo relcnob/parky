@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import type { NextPage } from "next"
 import Head from "next/head"
 import styles from "./index.module.scss"
@@ -270,16 +271,21 @@ const CreateParkingPage: NextPage = () => {
                 <h4>Parking spot features</h4>
                 <div className={styles.featureList}>
                   {featureList.map((feature) => (
-                    <InputField
-                      key={feature.value}
-                      name={"features"}
-                      id={feature.value}
-                      placeholder=""
-                      label={feature.title}
-                      value={feature.value}
-                      register={register}
-                      inputType="checkbox"
-                    />
+                    <span key={feature.value}>
+                      <Image
+                        src={iconHandler(feature.value)}
+                        alt={feature.value}
+                      />
+                      <InputField
+                        name={"features"}
+                        id={feature.value}
+                        placeholder=""
+                        label={feature.title}
+                        value={feature.value}
+                        register={register}
+                        inputType="checkbox"
+                      />
+                    </span>
                   ))}
                 </div>
                 <h4>Parking details</h4>

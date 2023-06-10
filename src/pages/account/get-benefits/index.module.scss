@@ -1,12 +1,163 @@
 @import "../../../styles/tokens.scss";
 .contentWrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacer-300;
+
+  h2 {
+    grid-column: 1/-1;
+  }
+  h4 {
+    margin-bottom: $spacer-400;
+  }
+}
+
+.balanceRefund {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer-300;
+
+  button {
+    width: 100%;
+  }
+  section p {
+    text-align: left;
+  }
+}
+
+.refundMessage {
+  text-align: left !important;
+}
+
+.amountInDkk {
+  padding: $spacer-300;
+  background-color: $neutral-200;
+  width: 100%;
+  display: flex;
+  border: solid $border-width-100 $neutral-400;
+  border-radius: $border-roundness-100;
+  justify-content: center;
+  font-weight: $font-weight-semibold;
+}
+
+.currentBalance {
+  justify-self: center;
+  width: 100%;
+  background-color: $neutral-200;
+  border-radius: $border-roundness-100;
+  padding: $spacer-300;
+  font-size: $font-size-header-4;
+  display: flex;
+  flex-direction: row;
+  gap: $spacer-100;
+  align-items: center;
+  justify-content: center;
+  em {
+    font-weight: $font-weight-semibold;
+    position: relative;
+  }
+}
+
+.info {
+  color: $neutral-500;
+  font-size: $font-size-label;
+  margin-bottom: $spacer-400;
+}
+.headerWrappper {
+  display: grid;
+  grid-template-columns: 0.5fr 3fr 1fr 1fr;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacer-200;
+  padding: 0 $spacer-300;
+  justify-content: space-between;
+
+  p:last-of-type {
+    text-align: right;
+    padding-right: $spacer-300;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.benefitsWrapper {
+  max-height: 80vh;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: $spacer-300;
 }
 
+.benefitItem {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr 1fr;
+  justify-content: space-between;
+  background-color: $neutral-200;
+  border-radius: $border-roundness-100;
+  padding: $spacer-200 $spacer-300;
+}
+
+.modalWrapper {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(86, 103, 119, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 10000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $spacer-200;
+  em {
+    font-weight: $font-weight-semibold;
+  }
+
+  p {
+    max-width: 64ch;
+    font-size: $font-size-body;
+    text-align: center;
+  }
+
+  > section {
+    background: $neutral-100;
+    box-shadow: $box-shadow;
+    min-width: 300px;
+    max-width: 450px;
+    padding: $spacer-400;
+    border-radius: $border-roundness-200;
+    h4 {
+      margin-bottom: $spacer-300;
+    }
+    .buttonWrapper {
+      margin-top: $spacer-400;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: $spacer-400;
+      > button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.modalHidden {
+  display: none;
+}
+
 @media screen and (min-width: 1024px) {
   .contentWrapper {
     gap: $spacer-400;
+    grid-template-columns: 2fr 3fr;
+  }
+}
+
+@media screen and (min-width: 1366px) {
+  .contentWrapper {
+    gap: $spacer-400;
+    grid-template-columns: 1fr 2fr;
+  }
+  .benefitItem {
+    grid-template-columns: 2fr 4fr 1fr 1fr;
   }
 }
