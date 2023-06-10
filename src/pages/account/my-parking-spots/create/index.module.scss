@@ -126,6 +126,17 @@
   > div {
     padding: 0;
   }
+  > span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: $spacer-200;
+    > img {
+      margin-bottom: 4px;
+      width: 24px;
+      height: 24px;
+    }
+  }
 }
 .inputWrapper {
   position: relative;

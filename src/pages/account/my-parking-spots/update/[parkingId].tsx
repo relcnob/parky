@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import styles from "../create/index.module.scss";
@@ -21,6 +22,8 @@ import SuperJSON from "superjson";
 import { TRPCError } from "@trpc/server";
 import { LoaderIcon } from "react-hot-toast";
 import Link from "next/link";
+import { iconHandler } from "~/components/ParkingSpotCard/components/SpotFeatures";
+import Image from "next/image";
 
 const UpdateParkingPage: NextPage<{
   parking: RouterOutputs["parking"]["getParkingById"];
@@ -252,15 +255,20 @@ const UpdateParkingPage: NextPage<{
                 <h4>Parking spot features</h4>
                 <div className={styles.featureList}>
                   {featureList.map((feature) => (
-                    <InputField
-                      key={feature.value}
-                      name="features"
-                      placeholder=""
-                      label={feature.title}
-                      value={feature.value}
-                      register={register}
-                      inputType="checkbox"
-                    />
+                    <span key={feature.value}>
+                      <Image
+                        src={iconHandler(feature.value)}
+                        alt={feature.value}
+                      />
+                      <InputField
+                        name="features"
+                        placeholder=""
+                        label={feature.title}
+                        value={feature.value}
+                        register={register}
+                        inputType="checkbox"
+                      />
+                    </span>
                   ))}
                 </div>
                 <h4>Parking details</h4>
