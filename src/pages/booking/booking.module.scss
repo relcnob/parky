@@ -144,12 +144,29 @@
 }
 
 .ratingWrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
   gap: $spacer-200;
   align-content: center;
   > div:last-of-type {
     margin-top: $spacer-400;
+  }
+  > div:first-of-type {
+    width: fit-content;
+
+    span {
+      cursor: pointer;
+    }
+  }
+  p {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    border-radius: $border-roundness-100;
+    font-weight: $font-weight-semibold;
+    color: $neutral-500;
   }
 }
 
@@ -195,7 +212,7 @@
 
 @media screen and (min-width: 768px) {
   .ratingWrapper {
-    gap: $spacer-400;
+    gap: $spacer-300;
   }
 
   .booking {
