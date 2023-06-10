@@ -3,88 +3,90 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import type { NextPage } from "next";
-import Head from "next/head";
-import styles from "./index.module.scss";
-import { DashboardWrapper } from "~/components/DashboardWrapper/DashboardWrapper";
-import { useUser } from "@clerk/nextjs";
-import { UiBox } from "~/components/uiBox/uiBox";
-import { type SubmitHandler, useForm } from "react-hook-form";
-import { LoaderIcon, toast } from "react-hot-toast";
-import { InputField } from "~/components/FormElements/InputField/InputField";
-import { type RouterInputs, api } from "~/utils/api";
-import { DashboardFooter } from "~/components/DashboardElements/components/DashboardFooter/DashboardFooter";
-import { TextArea } from "~/components/FormElements/InputField/TextArea";
-import { featureList } from "~/utils/features";
-import type { OSMdata } from "~/components/MapComponent/utils";
-import { useEffect, useState } from "react";
-import { SearchResult } from "~/components/MapComponent/SearchResult";
-import { NominatimUrl, type QueryParameters } from "~/pages/map";
-import Link from "next/link";
+import type { NextPage } from "next"
+import Head from "next/head"
+import styles from "./index.module.scss"
+import { DashboardWrapper } from "~/components/DashboardWrapper/DashboardWrapper"
+import { UiBox } from "~/components/uiBox/uiBox"
+import { type SubmitHandler, useForm } from "react-hook-form"
+import { LoaderIcon, toast } from "react-hot-toast"
+import { InputField } from "~/components/FormElements/InputField/InputField"
+import { type RouterInputs, api } from "~/utils/api"
+import { DashboardFooter } from "~/components/DashboardElements/components/DashboardFooter/DashboardFooter"
+import { TextArea } from "~/components/FormElements/InputField/TextArea"
+import { featureList } from "~/utils/features"
+import type { OSMdata } from "~/components/MapComponent/utils"
+import { useEffect, useState } from "react"
+import { SearchResult } from "~/components/MapComponent/SearchResult"
+import { NominatimUrl, type QueryParameters } from "~/pages/map"
+import Link from "next/link"
+import { UploadDropzone } from "@uploadthing/react"
+import type { OurFileRouter } from "~/server/uploadthing"
+
 const CreateParkingPage: NextPage = () => {
   const { register, handleSubmit, setValue, watch } =
-    useForm<RouterInputs["parking"]["create"]>();
+    useForm<RouterInputs["parking"]["create"]>()
   const {
     register: registerQuery,
     watch: watchQuery,
     setValue: setValueQuery,
   } = useForm({
     defaultValues: { parkingQuery: "" },
-  });
+  })
   const { mutate, error } = api.parking.create.useMutation({
     onSuccess: () => {
-      toast.success("Parking slot created");
+      toast.success("Parking slot created")
     },
     onError: (e) => {
-      toast.error(e.message);
+      toast.error(e.message)
     },
-  });
+  })
 
   const onSubmit: SubmitHandler<RouterInputs["parking"]["create"]> = (data) => {
     mutate({
       ...data,
       availableEnd: data.availableEnd + ":00Z",
       availableStart: data.availableStart + ":00Z",
-    });
-    return;
-  };
-  const [queryResults, setQueryResults] = useState<OSMdata[]>([]);
-  const [selectPosition, setSelectPosition] = useState<OSMdata>();
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const parkingQuery = watchQuery("parkingQuery");
+    })
+    return
+  }
+  const [queryResults, setQueryResults] = useState<OSMdata[]>([])
+  const [, setSelectPosition] = useState<OSMdata>()
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false)
+  const [isSearching, setIsSearching] = useState(false)
+  const parkingQuery = watchQuery("parkingQuery")
   useEffect(() => {
-    setQueryResults([]);
-    setIsSearching(true);
+    setQueryResults([])
+    setIsSearching(true)
     const delayDebounceFn = setTimeout(() => {
       const queryParameters: QueryParameters = {
         q: parkingQuery,
         format: "json",
         addressdetails: "1",
         polygon_geojson: "0",
-      };
-      const queryString = new URLSearchParams(queryParameters).toString();
+      }
+      const queryString = new URLSearchParams(queryParameters).toString()
 
       fetch(`${NominatimUrl}${queryString}`)
         .then((response) => response.text())
         .then((result: string) => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const results: [OSMdata] = JSON.parse(result);
+          const results: [OSMdata] = JSON.parse(result)
           const filteredResults = results.filter(
             (place) =>
               place.class === "boundary" ||
               place.class === "place" ||
               place.class === "highway"
-          );
-          setIsSearching(false);
-          setQueryResults(filteredResults);
-          parkingQuery.length && setIsDropdownVisible(true);
+          )
+          setIsSearching(false)
+          setQueryResults(filteredResults)
+          parkingQuery.length && setIsDropdownVisible(true)
         })
-        .catch((err) => console.log("error:", err));
-    }, 1000);
-    return () => clearTimeout(delayDebounceFn);
+        .catch((err) => console.log("error:", err))
+    }, 1000)
+    return () => clearTimeout(delayDebounceFn)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parkingQuery]);
+  }, [parkingQuery])
 
   return (
     <>
@@ -138,18 +140,18 @@ const CreateParkingPage: NextPage = () => {
                           key={place.osm_id}
                           place={place}
                           onClick={() => {
-                            setSelectPosition(place);
-                            setValueQuery("parkingQuery", place.display_name);
+                            setSelectPosition(place)
+                            setValueQuery("parkingQuery", place.display_name)
                             setValue(
                               "latitude",
                               Number(parseFloat(place.lat).toFixed(5))
-                            );
+                            )
                             setValue(
                               "longitude",
                               Number(parseFloat(place.lon).toFixed(5))
-                            );
-                            setValue("address", place.display_name);
-                            setIsDropdownVisible(false);
+                            )
+                            setValue("address", place.display_name)
+                            setIsDropdownVisible(false)
                           }}
                         />
                       ))
@@ -232,6 +234,19 @@ const CreateParkingPage: NextPage = () => {
                 />
               </UiBox>
               <UiBox className={styles.details}>
+                <div className={styles.imageUploadWrapper}>
+                  <h4>Parking image</h4>
+                  <p>Upload an image from your parking spot</p>
+                  <UploadDropzone<OurFileRouter>
+                    endpoint="imageUploader"
+                    onUploadError={(error) => console.log(error.message)}
+                    onClientUploadComplete={(res) => {
+                      if (res?.at(0)?.fileUrl) {
+                        setValue("imageURL", res[0]?.fileUrl)
+                      }
+                    }}
+                  />
+                </div>
                 <h4>Parking spot features</h4>
                 <div className={styles.featureList}>
                   {featureList.map((feature) => (
@@ -284,7 +299,7 @@ const CreateParkingPage: NextPage = () => {
         </DashboardWrapper>
       </main>
     </>
-  );
-};
+  )
+}
 
-export default CreateParkingPage;
+export default CreateParkingPage
