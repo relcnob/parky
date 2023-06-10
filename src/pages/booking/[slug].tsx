@@ -23,6 +23,7 @@ import { toast } from "react-hot-toast";
 import { InputField } from "~/components/FormElements/InputField/InputField";
 
 import { useForm } from "react-hook-form";
+import { StarRatingSelector } from "~/components/StarRatingSelector/StarRatingSelector";
 
 const Booking: NextPage = () => {
   const [bookingId, setBookingId] = useState("");
@@ -30,6 +31,7 @@ const Booking: NextPage = () => {
   const [driverId, setDriverId] = useState("");
   const [spotId, setSpotId] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [rating, setRating] = useState<number>(1);
   const user = useUser();
 
   const router = useRouter();
@@ -214,7 +216,6 @@ const Booking: NextPage = () => {
                   <form
                     onSubmit={() => {
                       event?.preventDefault();
-                      const rating = getValues("parkingRating");
                       if (
                         driverData?.id &&
                         spotData?.id &&
@@ -229,7 +230,7 @@ const Booking: NextPage = () => {
                         });
                       }
                       setValue("parkingComment", "");
-                      setValue("parkingRating", 3);
+                      setRating(1);
                     }}
                   >
                     <h4>Review parking</h4>
@@ -239,23 +240,11 @@ const Booking: NextPage = () => {
                     <section>
                       <div>
                         <div className={styles.ratingWrapper}>
-                          <InputField
-                            inputType="number"
-                            name="parkingRating"
-                            placeholder="Parking rating"
-                            label="Parking rating"
-                            register={register}
-                            min="1"
-                            max="5"
-                            error={
-                              watch("parkingRating") <= 0 ||
-                              watch("parkingRating") > 5
-                                ? "Please input correct rating (1-5)"
-                                : undefined
-                            }
-                            required
+                          <StarRatingSelector
+                            rating={rating}
+                            onClick={(index) => setRating(index)}
                           />
-                          <StarRating rating={watch("parkingRating")} />
+                          <p>Selected rating: {rating}</p>
                         </div>
                         <label
                           htmlFor="driverComment"
@@ -275,9 +264,7 @@ const Booking: NextPage = () => {
                           value="Submit review"
                           className={styles.primary}
                           disabled={
-                            spotData?.id &&
-                            watch("parkingRating") > 0 &&
-                            watch("parkingRating") <= 5
+                            spotData?.id && rating > 0 && rating <= 5
                               ? false
                               : true
                           }
@@ -291,7 +278,6 @@ const Booking: NextPage = () => {
                   <form
                     onSubmit={() => {
                       event?.preventDefault();
-                      const rating = getValues("driverRating");
                       if (
                         driverData?.id &&
                         spotData?.id &&
@@ -308,7 +294,7 @@ const Booking: NextPage = () => {
                       }
 
                       setValue("driverComment", "");
-                      setValue("driverRating", 3);
+                      setRating(1);
                     }}
                   >
                     <h4>Review Driver</h4>
@@ -318,23 +304,11 @@ const Booking: NextPage = () => {
                     <section>
                       <div>
                         <div className={styles.ratingWrapper}>
-                          <InputField
-                            inputType="number"
-                            name="driverRating"
-                            placeholder="Driver rating"
-                            label="Driver rating"
-                            register={register}
-                            min="1"
-                            max="5"
-                            error={
-                              watch("driverRating") <= 0 ||
-                              watch("driverRating") > 5
-                                ? "Please input correct rating (1-5)"
-                                : undefined
-                            }
-                            required
+                          <StarRatingSelector
+                            rating={rating}
+                            onClick={(index) => setRating(index)}
                           />
-                          <StarRating rating={watch("driverRating")} />
+                          <p>Selected rating: {rating}</p>
                         </div>
                         <label
                           htmlFor="driverComment"
@@ -418,6 +392,10 @@ const Booking: NextPage = () => {
                 )}
               </UiBox>
             </section>
+          ) : isLoading || !user.isLoaded ? (
+            <>
+              <h2>Loading</h2>
+            </>
           ) : (
             <>
               <h2>ACCESS DENIED</h2>
