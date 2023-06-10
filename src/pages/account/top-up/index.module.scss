@@ -68,7 +68,7 @@
 
   form {
     margin-top: $spacer-300;
-    max-width: 500px;
+    max-width: 100%;
     align-self: center;
     justify-self: center;
     display: flex;
@@ -84,10 +84,56 @@
   }
 }
 
+.packageSelector {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  width: 100%;
+  gap: $spacer-300;
+  max-height: 320px;
+  overflow-y: scroll;
+  > div {
+    background: $neutral-200;
+    border-radius: $border-roundness-100;
+    min-height: 100px;
+    padding: $spacer-200;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    > p {
+      font-weight: $font-weight-semibold;
+      color: $neutral-500;
+    }
+    > span {
+      display: flex;
+      flex-direction: row;
+      gap: $spacer-100;
+      justify-content: center;
+      align-items: center;
+    }
+    > div {
+      > label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:not(input) {
+          font-size: $font-size-body-large;
+        }
+      }
+    }
+  }
+  .selected {
+    outline: 4px solid $blue-200;
+    outline-offset: -4px;
+    box-shadow: $box-shadow;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .contentWrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 3fr 1fr;
     grid-template-rows: 1fr;
     gap: $spacer-400;
     h2 {
@@ -95,6 +141,18 @@
     }
     .formWrapper {
       grid-row: span 2;
+    }
+  }
+  .packageSelector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    gap: $spacer-300;
+    max-height: auto;
+    overflow-y: none;
+    > div {
+      min-height: 150px;
+      padding: $spacer-400;
     }
   }
 }

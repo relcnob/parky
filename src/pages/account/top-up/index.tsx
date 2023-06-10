@@ -1,36 +1,44 @@
-import { type NextPage } from "next"
-import { DashboardWrapper } from "~/components/DashboardWrapper/DashboardWrapper"
-import { type RouterInputs, api } from "~/utils/api"
-import toast from "react-hot-toast"
-import { type SubmitHandler, useForm } from "react-hook-form"
-import styles from "./index.module.scss"
-import { useUser } from "@clerk/nextjs"
-import { InputField } from "~/components/FormElements/InputField/InputField"
-import { DashboardFooter } from "~/components/DashboardElements/components/DashboardFooter/DashboardFooter"
-import Link from "next/link"
-import { UiBox } from "~/components/uiBox/uiBox"
-import Head from "next/head"
-
+import { type NextPage } from "next";
+import { DashboardWrapper } from "~/components/DashboardWrapper/DashboardWrapper";
+import { type RouterInputs, api } from "~/utils/api";
+import toast from "react-hot-toast";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import styles from "./index.module.scss";
+import { useUser } from "@clerk/nextjs";
+import { InputField } from "~/components/FormElements/InputField/InputField";
+import { DashboardFooter } from "~/components/DashboardElements/components/DashboardFooter/DashboardFooter";
+import Link from "next/link";
+import { UiBox } from "~/components/uiBox/uiBox";
+import Head from "next/head";
+import Image from "next/image";
+import { useState } from "react";
 const TopUp: NextPage = () => {
-  const ctx = api.useContext()
-  const user = useUser()
+  const [selectedAmount, setSelectedAmount] = useState<number | string>();
+  const ctx = api.useContext();
+  const user = useUser();
   const { mutate: addCoin, error } = api.coin.addCoin.useMutation({
     onSuccess: (e) => {
-      toast.success("Transaction complete")
-      void ctx.profile.getProfileById.invalidate()
+      toast.success("Transaction complete");
+      void ctx.profile.getProfileById.invalidate();
     },
     onError: () => {
-      toast.error("Something went wrong")
+      toast.error("Something went wrong");
     },
-  })
+  });
   const { register, handleSubmit, watch } =
-    useForm<RouterInputs["coin"]["addCoin"]>()
+    useForm<RouterInputs["coin"]["addCoin"]>();
 
   const onSubmit: SubmitHandler<RouterInputs["coin"]["addCoin"]> = (data) => {
-    if (user.user) {
-      addCoin({ ...data, toAccountId: user.user.id })
+    if (user.user && selectedAmount === "custom") {
+      addCoin({ ...data, toAccountId: user.user.id });
+    } else if (
+      user.user &&
+      typeof selectedAmount === "number" &&
+      selectedAmount
+    ) {
+      addCoin({ amount: selectedAmount, toAccountId: user.user.id });
     }
-  }
+  };
 
   return (
     <>
@@ -51,19 +59,115 @@ const TopUp: NextPage = () => {
               </p>
               {/*eslint-disable-next-line */}
               <form onSubmit={handleSubmit(onSubmit)}>
-                <InputField
-                  register={register}
-                  name="amount"
-                  label="Purchase amount"
-                  inputType="number"
-                  placeholder="Insert coin amount"
-                  min={1}
-                  error={
-                    watch("amount") < 1
-                      ? "Please insert a valid amount."
-                      : error?.data?.zodError?.fieldErrors["amount"]?.at(0)
-                  }
-                />
+                <section className={styles.packageSelector}>
+                  <div
+                    className={selectedAmount === 10 ? styles.selected : ""}
+                    onClick={() => {
+                      setSelectedAmount(10);
+                    }}
+                  >
+                    <span>
+                      <h3>10</h3>
+                      <Image
+                        src="/icon/parkcoin-filled.svg"
+                        width={24}
+                        height={24}
+                        alt="parcoin icon"
+                      />
+                    </span>
+                    <p>100 DKK</p>
+                  </div>
+                  <div
+                    className={selectedAmount === 25 ? styles.selected : ""}
+                    onClick={() => {
+                      setSelectedAmount(25);
+                    }}
+                  >
+                    <span>
+                      <h3>25</h3>
+                      <Image
+                        src="/icon/parkcoin-filled.svg"
+                        width={24}
+                        height={24}
+                        alt="parcoin icon"
+                      />
+                    </span>
+                    <p>250 DKK</p>
+                  </div>
+                  <div
+                    className={selectedAmount === 100 ? styles.selected : ""}
+                    onClick={() => {
+                      setSelectedAmount(100);
+                    }}
+                  >
+                    <span>
+                      <h3>100</h3>
+                      <Image
+                        src="/icon/parkcoin-filled.svg"
+                        width={24}
+                        height={24}
+                        alt="parcoin icon"
+                      />
+                    </span>
+                    <p>1000 DKK</p>
+                  </div>
+                  <div
+                    className={selectedAmount === 250 ? styles.selected : ""}
+                    onClick={() => {
+                      setSelectedAmount(250);
+                    }}
+                  >
+                    <span>
+                      <h3>250</h3>
+                      <Image
+                        src="/icon/parkcoin-filled.svg"
+                        width={24}
+                        height={24}
+                        alt="parcoin icon"
+                      />
+                    </span>
+                    <p>2500 DKK</p>
+                  </div>
+                  <div
+                    className={selectedAmount === 500 ? styles.selected : ""}
+                    onClick={() => {
+                      setSelectedAmount(500);
+                    }}
+                  >
+                    <span>
+                      <h3>500</h3>
+                      <Image
+                        src="/icon/parkcoin-filled.svg"
+                        width={24}
+                        height={24}
+                        alt="parcoin icon"
+                      />
+                    </span>
+                    <p>5000 DKK</p>
+                  </div>
+                  <div
+                    className={
+                      selectedAmount === "custom" ? styles.selected : ""
+                    }
+                    onClick={() => {
+                      setSelectedAmount("custom");
+                    }}
+                  >
+                    <InputField
+                      register={register}
+                      name="amount"
+                      label="Custom amount"
+                      inputType="number"
+                      placeholder="Insert coin amount"
+                      min={1}
+                      error={
+                        watch("amount") < 1
+                          ? "Please insert a valid amount."
+                          : error?.data?.zodError?.fieldErrors["amount"]?.at(0)
+                      }
+                    />
+                  </div>
+                </section>
                 <input
                   type="submit"
                   className={styles.primary}
@@ -110,7 +214,7 @@ const TopUp: NextPage = () => {
         </>
       </DashboardWrapper>
     </>
-  )
-}
+  );
+};
 
-export default TopUp
+export default TopUp;
