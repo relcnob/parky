@@ -21,6 +21,11 @@ import { useEffect, useState } from "react";
 import { SearchResult } from "~/components/MapComponent/SearchResult";
 import { NominatimUrl, type QueryParameters } from "~/pages/map";
 import Link from "next/link";
+import {
+  SpotFeatures,
+  iconHandler,
+} from "~/components/ParkingSpotCard/components/SpotFeatures";
+import Image from "next/image";
 const CreateParkingPage: NextPage = () => {
   const { register, handleSubmit, setValue, watch } =
     useForm<RouterInputs["parking"]["create"]>();
@@ -235,16 +240,21 @@ const CreateParkingPage: NextPage = () => {
                 <h4>Parking spot features</h4>
                 <div className={styles.featureList}>
                   {featureList.map((feature) => (
-                    <InputField
-                      key={feature.value}
-                      name={"features"}
-                      id={feature.value}
-                      placeholder=""
-                      label={feature.title}
-                      value={feature.value}
-                      register={register}
-                      inputType="checkbox"
-                    />
+                    <span key={feature.value}>
+                      <Image
+                        src={iconHandler(feature.value)}
+                        alt={feature.value}
+                      />
+                      <InputField
+                        name={"features"}
+                        id={feature.value}
+                        placeholder=""
+                        label={feature.title}
+                        value={feature.value}
+                        register={register}
+                        inputType="checkbox"
+                      />
+                    </span>
                   ))}
                 </div>
                 <h4>Parking details</h4>
