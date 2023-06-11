@@ -39,6 +39,7 @@ export const ParkingSpotCard = ({
             alt={spot.address}
             width={200}
             height={200}
+            className={styles.spotImage}
           />
         ) : (
           <svg
