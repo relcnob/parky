@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -20,6 +21,7 @@ import { Button } from "~/components/button/button";
 import { Toggle } from "~/components/Toggle/Toggle";
 import Head from "next/head";
 import Router from "next/router";
+import Image from "next/image";
 
 export type QueryParameters = {
   q: string;
@@ -51,6 +53,7 @@ const Map: NextPage = () => {
     useState<JSX.Element>();
   const [isPurchaseFormVisible, setIsPurchaseFormVisible] = useState(false);
   const [bookingType, setBookingType] = useState("hourly");
+  const [isLegendVisible, setIsLegendVisible] = useState(false);
   const [userId, setUserId] = useState("");
   const user = useUser();
   const today = new Date();
@@ -386,6 +389,77 @@ const Map: NextPage = () => {
               {purchaseFormContents}
             </PurchaseModal>
           )}
+          <div
+            onClick={() => setIsLegendVisible(true)}
+            className={styles.legendToggle}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="36"
+              height="36"
+              fill="#1b31a4"
+              viewBox="0 0 16 16"
+            >
+              <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+            </svg>
+          </div>
+          <section
+            className={
+              isLegendVisible
+                ? styles.mapLegend
+                : `${styles.mapLegendHidden} ${styles.mapLegend}`
+            }
+          >
+            <span onClick={() => setIsLegendVisible(false)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="36"
+                height="36"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </span>
+            <ul>
+              <li>
+                <Image
+                  src="/icon/map-pin-blue.svg"
+                  alt="parking icon"
+                  width={24}
+                  height={24}
+                />
+                Parking available
+              </li>
+              <li>
+                <Image
+                  src="/icon/map-pin-red.svg"
+                  alt="parking icon"
+                  width={24}
+                  height={24}
+                />
+                Vehicle too large
+              </li>
+              <li>
+                <Image
+                  src="/icon/map-pin-yellow.svg"
+                  alt="parking icon"
+                  width={24}
+                  height={24}
+                />
+                Selected parking
+              </li>
+              <li>
+                <Image
+                  src="/icon/map-pin-gray.svg"
+                  alt="parking icon"
+                  width={24}
+                  height={24}
+                />
+                Loading parking data
+              </li>
+            </ul>
+          </section>
           <MapComponent
             location={selectPosition}
             nearbyParkingSpots={nearbyParkingSpots}

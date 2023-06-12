@@ -1,4 +1,59 @@
 @import "../../styles/tokens.scss";
+
+.mapLegend {
+  display: flex;
+  position: fixed;
+  bottom: $spacer-400;
+  right: $spacer-200;
+  z-index: 1000;
+  background-color: $neutral-100;
+  padding: $spacer-300 $spacer-700;
+  border-radius: $border-roundness-200;
+  padding-left: $spacer-300;
+  > span {
+    position: absolute;
+    top: $spacer-100;
+    right: $spacer-100;
+    width: $spacer-500;
+    height: $spacer-500;
+    cursor: pointer;
+  }
+
+  > ul {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-200;
+    > li {
+      display: flex;
+      flex-direction: row;
+      gap: $spacer-200;
+      align-items: center;
+    }
+  }
+  &Hidden {
+    display: none;
+  }
+}
+
+.legendToggle {
+  position: fixed;
+  width: $spacer-600;
+  height: $spacer-600;
+  border-radius: 100rem;
+  z-index: 900;
+  background-color: $neutral-100;
+  display: flex;
+  bottom: $spacer-400;
+  right: $spacer-200;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 1;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .mapWrapper {
   width: 100%;
   height: calc(100vh - 65px);
@@ -232,6 +287,17 @@
 @media only screen and (min-width: 1024px) {
   .mapWrapper {
     height: calc(100vh - 96px);
+  }
+
+  .legendToggle {
+    width: $spacer-700;
+    height: $spacer-700;
+    opacity: 0.8;
+    bottom: $spacer-400;
+    right: $spacer-300;
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 
