@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-    provider     = "mysql"
+    provider     = "postgresql"
     url          = env("DATABASE_URL")
+    directUrl    = env("DIRECT_URL")
     relationMode = "prisma"
 }
 
@@ -31,7 +32,7 @@ model Profile {
     licensePlate  String?         @db.VarChar(255)
     vehicleModel  String?         @db.VarChar(255)
     vehicleSize   Sizes?
-    rating        Float?          @default(5.0) @db.Float
+    rating        Float?          @default(5.0) @db.Real
     createdAt     DateTime        @default(now())
     updatedAt     DateTime        @default(now())
     ProfileReview ProfileReview[]
@@ -49,7 +50,7 @@ model ProfileReview {
     profileId           String
     parking             ParkingSpot @relation(fields: [issuedFromParkingId], references: [id])
     issuedFromParkingId String
-    rating              Float       @db.Float
+    rating              Float       @db.Real
     content             String      @db.VarChar(255)
     createdAt           DateTime    @default(now())
     updatedAt           DateTime    @updatedAt
@@ -88,14 +89,14 @@ model ParkingSpot {
     address        String          @db.VarChar(255)
     imageURL       String?
     price          Int
-    rating         Float?          @default(5.0) @db.Float
+    rating         Float?          @default(5.0) @db.Real
     availableStart DateTime
     availableEnd   DateTime
     features       Json?
     description    String
     dimensions     Sizes
-    latitude       Float           @db.Double
-    longitude      Float           @db.Double
+    latitude       Float           @db.DoublePrecision
+    longitude      Float           @db.DoublePrecision
     createdAt      DateTime        @default(now())
     updatedAt      DateTime        @updatedAt
     ParkingReview  ParkingReview[]

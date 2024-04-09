@@ -92,7 +92,8 @@ export const BookingForm = ({
       <div className={`${styles.formWrapper} `}>
         <h3>Book a parking spot</h3>
         <p className={styles.signin}>
-          Please {<SignInButton />} or {<SignUpButton />} first to book a
+          Please {<SignInButton />} or{" "}
+          {<SignUpButton afterSignUpUrl="/profile/create" />} first to book a
           parking spot.
         </p>
         <div className={styles.buttonsWrapper}>
