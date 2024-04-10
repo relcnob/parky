@@ -146,7 +146,7 @@ const Home: NextPage = () => {
                   <div>
                     <h2> New to Parky?</h2>
                     <p>
-                      Join our network of drivers and owners and gain benefits.
+                      Join our network of drivers and owners to gain benefits.
                     </p>
                     <div>
                       <span className={styles.clerkButton}>
