@@ -352,6 +352,7 @@ const Map: NextPage = () => {
         .then((result: string) => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const results: [OSMdata] = JSON.parse(result);
+          console.log(results);
           const filteredResults = results.filter(
             (place) =>
               place.class === "boundary" ||
